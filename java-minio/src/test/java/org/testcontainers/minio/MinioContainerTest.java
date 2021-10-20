@@ -1,18 +1,19 @@
 package org.testcontainers.minio;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import java.util.List;
-
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.client.builder.AwsClientBuilder;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.Bucket;
 import org.junit.After;
 import org.junit.Test;
 
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.S3ClientOptions;
-import com.amazonaws.services.s3.model.Bucket;
+import javax.annotation.Nullable;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class MinioContainerTest {
 
@@ -20,7 +21,8 @@ public class MinioContainerTest {
     private static final String SECRET_KEY = "secretKey";
     private static final String BUCKET = "bucket";
 
-    private AmazonS3Client client = null;
+    @Nullable
+    private AmazonS3 client;
 
     @After
     public void shutDown() {
@@ -36,7 +38,6 @@ public class MinioContainerTest {
                 final MinioContainer minioContainer = new MinioContainer(new MinioContainer.Credentials(ACCESS_KEY, SECRET_KEY));
         ) {
             minioContainer.start();
-            assertEquals(1, 1);
             client = getS3Client(minioContainer);
             Bucket bucket = client.createBucket(BUCKET);
             assertNotNull(bucket);
@@ -48,16 +49,12 @@ public class MinioContainerTest {
         }
     }
 
-    private AmazonS3Client getS3Client(MinioContainer container) {
-        S3ClientOptions clientOptions = S3ClientOptions
-                .builder()
-                .setPathStyleAccess(true)
-                .build();
+    private AmazonS3 getS3Client(MinioContainer container) {
+        AmazonS3ClientBuilder clientBuilder = AmazonS3ClientBuilder.standard();
 
-        client = new AmazonS3Client(new AWSStaticCredentialsProvider(
-                new BasicAWSCredentials(ACCESS_KEY, SECRET_KEY)));
-        client.setEndpoint("http://" + container.getHostAddress());
-        client.setS3ClientOptions(clientOptions);
-        return client;
+        String serviceEndpoint = "http://" + container.getHostAddress();
+        clientBuilder.withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(serviceEndpoint, "us-east-1"));
+        clientBuilder.withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(ACCESS_KEY, SECRET_KEY)));
+        return clientBuilder.build();
     }
 }
