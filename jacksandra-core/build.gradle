@@ -1,0 +1,66 @@
+dependencies {
+    implementation group: 'com.datastax.oss', name: 'java-driver-query-builder', version: '4.6.1'
+    implementation group: 'com.datastax.oss', name: 'java-driver-mapper-runtime', version: '4.6.1'
+
+    api(group: 'com.fasterxml.jackson.core', name: 'jackson-core') {
+        version {
+            strictly '2.10.5'
+            force = true
+        }
+    }
+    api(group: 'com.fasterxml.jackson.core', name: 'jackson-databind') {
+        version {
+            strictly '2.10.5'
+            force = true
+        }
+    }
+    api(group: 'com.fasterxml.jackson.core', name: 'jackson-annotations') {
+        version {
+            strictly '2.10.5'
+            force = true
+        }
+    }
+    api(group: 'com.fasterxml.jackson.module', name: 'jackson-module-scala_2.12') {
+        version {
+            strictly '2.10.5'
+            force = true
+        }
+    }
+    api(group: 'com.fasterxml.jackson.module', name: 'jackson-module-jsonSchema') {
+        version {
+            strictly '2.10.5'
+            force = true
+        }
+    }
+    api(group: 'com.fasterxml.jackson.module', name: 'jackson-module-paranamer') {
+        version {
+            strictly '2.10.5'
+            force = true
+        }
+    }
+    api(group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8') {
+        version {
+            strictly '2.10.5'
+            force = true
+        }
+    }
+    api(group: 'com.fasterxml.jackson.module', name: 'jackson-module-scala_2.12') {
+        version {
+            strictly '2.10.5'
+            force = true
+        }
+    }
+    api(group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310') {
+        version {
+            strictly '2.10.5'
+            force = true
+        }
+    }
+    testImplementation(group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-guava') {
+        version {
+            strictly '2.10.5'
+        }
+    }
+    testImplementation group: 'com.google.guava', name: 'guava', version: '30.1.1-jre'
+    testImplementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+}
