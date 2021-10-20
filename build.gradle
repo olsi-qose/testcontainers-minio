@@ -29,8 +29,8 @@ subprojects { project ->
     apply plugin: "jacoco"
     apply plugin: "com.github.maiflai.scalatest"
 
-    group 'com.mridang'
-    version '3.0.6'
+    group 'org.testcontainers'
+    version '1.16.0'
 
     repositories {
         mavenCentral()
@@ -51,7 +51,7 @@ subprojects { project ->
 // is the name of the root package to be analysed.
     nullaway {
         //noinspection GrUnresolvedAccess
-        annotatedPackages.add("com.mridang")
+        annotatedPackages.add("org.testcontainers")
     }
 
 // Configuration for the Scalastyle plugin. It seems that it isn't possible to define
@@ -121,7 +121,7 @@ subprojects { project ->
         repositories {
             maven {
                 name = "github"
-                url = uri("https://maven.pkg.github.com/mridang/testcontainers-minio")
+                url = uri("https://maven.pkg.github.com/olsi-qose/testcontainers-minio")
                 credentials(PasswordCredentials)
             }
         }
@@ -143,7 +143,7 @@ subprojects { project ->
                     //noinspection GroovyAssignabilityCheck
                     description = 'Add-on module for Jackson (https://jackson.codehaus.org) to support Elasticsearch mapping generation.'
                     //noinspection GroovyAssignabilityCheck
-                    url = 'https://github.com/mridang/testcontainers-minio'
+                    url = 'https://github.com/olsi-qose/testcontainers-minio'
                     licenses {
                         license {
                             //noinspection GroovyAssignabilityCheck
@@ -156,26 +156,26 @@ subprojects { project ->
                     }
                     scm {
                         //noinspection GroovyAssignabilityCheck
-                        url = 'https://github.com/mridang/testcontainers-minio'
+                        url = 'https://github.com/olsi-qose/testcontainers-minio'
                         //noinspection GroovyAssignabilityCheck
-                        connection = 'scm:git:git://github.com/mridang/testcontainers-minio'
+                        connection = 'scm:git:git://github.com/olsi-qose/testcontainers-minio'
                         //noinspection GroovyAssignabilityCheck
-                        developerConnection = 'scm:git:git://github.com/mridang/testcontainers-minio'
+                        developerConnection = 'scm:git:git://github.com/olsi-qose/testcontainers-minio'
                     }
                     issueManagement {
                         //noinspection GroovyAssignabilityCheck
                         system = "Github"
                         //noinspection GroovyAssignabilityCheck
-                        url = "https://github.com/mridang/testcontainers-minio/issues"
+                        url = "https://github.com/olsi-qose/testcontainers-minio/issues"
                     }
                     developers {
                         developer {
                             //noinspection GroovyAssignabilityCheck
-                            id = 'mridang'
+                            id = 'olsi-qose'
                             //noinspection GroovyAssignabilityCheck
-                            name = 'Mridang Agarwalla'
+                            name = 'Olsi Qose'
                             //noinspection GroovyAssignabilityCheck
-                            email = 'mridang.agarwalla@gmail.com'
+                            email = 'olsi.qose@gmail.com'
                         }
                     }
                     contributors {
