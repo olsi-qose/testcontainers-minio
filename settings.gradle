@@ -8,6 +8,6 @@
  */
 
 rootProject.name = 'testcontainers-minio'
-include 'spark-testcontainers-minio-helper'
-include 'testcontainers-minio-core'
+include 'scala-minio'
+include 'java-minio'
 
