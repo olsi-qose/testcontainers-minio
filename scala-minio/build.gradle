@@ -1,5 +1,5 @@
 dependencies {
     implementation project(':java-minio')
+    implementation group: 'com.dimafeng', name: 'testcontainers-scala_2.13', version: '0.39.8'
     testImplementation project(':java-minio').sourceSets.test.output
-
 }

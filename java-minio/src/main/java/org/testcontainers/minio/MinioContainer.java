@@ -1,5 +1,6 @@
 package org.testcontainers.minio;
 
+import java.net.InetSocketAddress;
 import java.time.Duration;
 
 import org.testcontainers.containers.GenericContainer;
@@ -15,6 +16,19 @@ public class MinioContainer extends GenericContainer<MinioContainer> {
     private static final String MINIO_ROOT_PASSWORD = "MINIO_ROOT_PASSWORD";
 
     private static final DockerImageName DEFAULT_IMAGE_NAME = DockerImageName.parse("quay.io/minio/minio");
+
+    /**
+     * Create a Minio Container by passing the full docker image name
+     *
+     * @param dockerImageName Full docker image name as a {@link String}, like: minio/minio:7.9.2
+     */
+    public MinioContainer(String dockerImageName) {
+        this(Credentials.DEFAULT, DockerImageName.parse(dockerImageName));
+    }
+
+    public MinioContainer(DockerImageName dockerImageName) {
+        this(Credentials.DEFAULT, dockerImageName);
+    }
 
     public MinioContainer(Credentials credentials) {
         this(credentials, DEFAULT_IMAGE_NAME.withTag(DEFAULT_TAG));
@@ -38,7 +52,17 @@ public class MinioContainer extends GenericContainer<MinioContainer> {
         return getContainerIpAddress() + ":" + getMappedPort(MINIO_INTERNAL_PORT);
     }
 
+    public String getHttpHostAddress() {
+        return getHost() + ":" + getMappedPort(MINIO_INTERNAL_PORT);
+    }
+
+    public InetSocketAddress getTcpHost() {
+        return new InetSocketAddress(getHost(), getMappedPort(MINIO_INTERNAL_PORT));
+    }
+
     public static class Credentials {
+
+        public static final Credentials DEFAULT = new Credentials("minio_username", "minio_password");
         private final String username;
         private final String password;
 
