@@ -1,21 +1,5 @@
 dependencies {
     implementation project(':java-minio')
     testImplementation project(':java-minio').sourceSets.test.output
-    implementation group: 'org.apache.spark', name: 'spark-core_2.12', version: '3.0.0'
-    implementation group: 'org.apache.spark', name: 'spark-sql_2.12', version: '3.0.0'
-    implementation(group: 'com.datastax.spark', name: 'spark-cassandra-connector_2.12', version: '3.0.1') {
-        exclude group: 'com.fasterxml.jackson.module', module: 'jackson-module-jsonSchema'
-        exclude group: 'com.fasterxml.jackson.datatype', module: 'jackson-datatype-jdk8'
-        exclude group: 'com.fasterxml.jackson.module', module: "jackson-module-scala_2.12"
-        exclude group: 'com.fasterxml.jackson.datatype', module: 'jackson-datatype-jsr310'
-    }
-    implementation(group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-guava') {
-        version {
-            strictly '2.10.5'
-        }
-    }
-    testImplementation group: 'com.dimafeng', name: 'testcontainers-scala-scalatest_2.12', version: '0.39.3'
-    testImplementation group: 'com.dimafeng', name: 'testcontainers-scala-cassandra_2.12', version: '0.39.3'
-    testImplementation group: 'com.holdenkarau', name: 'spark-testing-base_2.12', version: '3.0.1_1.0.0'
-    testImplementation group: 'org.jeasy', name: 'easy-random-core', version: '5.0.0'
+
 }
