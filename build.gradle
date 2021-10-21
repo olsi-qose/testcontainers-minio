@@ -52,6 +52,7 @@ subprojects { project ->
     nullaway {
         //noinspection GrUnresolvedAccess
         annotatedPackages.add("org.testcontainers")
+        annotatedPackages.add("com.dimafeng")
     }
 
 // Configuration for the Scalastyle plugin. It seems that it isn't possible to define
