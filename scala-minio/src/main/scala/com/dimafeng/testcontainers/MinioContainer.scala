@@ -1,6 +1,5 @@
-package org.testcontainers.minio
+package com.dimafeng.testcontainers
 
-import com.dimafeng.testcontainers.{ContainerDef, SingleContainer}
 import org.testcontainers.minio.{MinioContainer => JavaMinioContainer}
 import org.testcontainers.utility.DockerImageName
 
