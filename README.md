@@ -1,5 +1,6 @@
 # TestContainers for MinIO
 
+MinIO support for the test containers project.
 
 ## Installation
 
@@ -9,6 +10,40 @@ Registry, [https://docs.github.com/en/packages/guides/configuring-gradle-for-use
 
 ## Usage
 
+### Usage in Junit
+
+MinIO can be easily used im JUnit via rules like any other test container. The snippet below shows how MinIO can be used in a Junit test.
+
+```java
+public class MinioBackedTest {
+
+    @Rule
+    public MinioContainer minio = new MinioContainer();
+
+    @Test
+    public void testWithContainer() {
+        ...
+    }
+}
+```
+
+For advanced usages, read the docs at https://github.com/testcontainers/testcontainers-java
+
+
+### Usage in ScalaTest
+
+```scala
+class MysqlSpec extends AnyFlatSpec with ForAllTestContainer {
+
+  override val container: MinioContainer = MinioContainer()
+
+  "MinIO container" should "be started" in {
+     ...
+  }
+}
+```
+
+For advanced usages, read the docs at https://github.com/testcontainers/testcontainers-scala
 
 ## License
 
