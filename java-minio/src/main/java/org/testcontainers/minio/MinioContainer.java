@@ -9,8 +9,8 @@ import org.testcontainers.utility.DockerImageName;
 
 public class MinioContainer extends GenericContainer<MinioContainer> {
 
-    private static final int MINIO_INTERNAL_PORT = 9000;
     protected static final String DEFAULT_TAG = "RELEASE.2021-10-13T00-23-17Z.fips";
+    private static final int MINIO_INTERNAL_PORT = 9000;
     private static final String DEFAULT_STORAGE_DIRECTORY = "/data";
     private static final String MINIO_ROOT_USER = "MINIO_ROOT_USER";
     private static final String MINIO_ROOT_PASSWORD = "MINIO_ROOT_PASSWORD";
