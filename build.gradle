@@ -12,7 +12,7 @@ buildscript {
         classpath "net.ltgt.gradle:gradle-errorprone-plugin:2.0.1"
         classpath "net.ltgt.gradle:gradle-nullaway-plugin:1.1.0"
         classpath "gradle.plugin.com.dorongold.plugins:task-tree:1.5"
-        classpath "gradle.plugin.com.github.maiflai:gradle-scalatest:0.31"
+        //classpath "gradle.plugin.com.github.maiflai:gradle-scalatest:0.31"
     }
 }
 
@@ -27,7 +27,7 @@ subprojects { project ->
     apply plugin: 'net.ltgt.nullaway'
     apply plugin: "com.dorongold.task-tree"
     apply plugin: "jacoco"
-    apply plugin: "com.github.maiflai.scalatest"
+    //apply plugin: "com.github.maiflai.scalatest"
 
     group 'org.testcontainers'
     version '1.16.0'
@@ -37,10 +37,11 @@ subprojects { project ->
     }
 
     dependencies {
-        testImplementation group: 'org.scalatest', name: 'scalatest_2.12', version: '3.2.8'
-        testImplementation group: 'org.scalatestplus', name: 'junit-4-12_2.12', version: '3.2.2.0'
-        testRuntimeOnly 'org.scala-lang.modules:scala-xml_2.12:1.2.0'
-        testRuntimeOnly 'com.vladsch.flexmark:flexmark-all:0.35.10'
+        //testImplementation group: 'org.scalatestplus', name: 'junit-4-12_2.12', version: '3.2.2.0'
+        testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.2.0'
+        testRuntimeOnly group: 'org.junit.vintage', name: 'junit-vintage-engine', version: '5.2.0'
+        testRuntimeOnly group: 'org.scala-lang.modules', name: 'scala-xml_2.12', version: '1.2.0'
+        testRuntimeOnly group: 'com.vladsch.flexmark', name: 'flexmark-all', version: '0.35.10'
         implementation group: 'org.scala-lang', name: 'scala-library', version: '2.12.13'
         errorprone group: 'com.uber.nullaway', name: 'nullaway', version: '0.9.1'
         errorprone group: 'com.google.errorprone', name: 'error_prone_core', version: '2.6.0'
