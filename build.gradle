@@ -143,15 +143,15 @@ subprojects { project ->
                     //noinspection GroovyAssignabilityCheck
                     name = 'testcontainers-minio'
                     //noinspection GroovyAssignabilityCheck
-                    description = 'Add-on module for Jackson (https://jackson.codehaus.org) to support Elasticsearch mapping generation.'
+                    description = 'MinIO support for the test containers project.'
                     //noinspection GroovyAssignabilityCheck
                     url = 'https://github.com/olsi-qose/testcontainers-minio'
                     licenses {
                         license {
                             //noinspection GroovyAssignabilityCheck
-                            name = 'The Apache Software License, Version 2.0'
+                            name = 'The MIT License (MIT)'
                             //noinspection GroovyAssignabilityCheck
-                            url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+                            url = 'https://opensource.org/licenses/MIT'
                             //noinspection GroovyAssignabilityCheck
                             distribution = 'repo'
                         }
