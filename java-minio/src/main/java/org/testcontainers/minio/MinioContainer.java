@@ -12,6 +12,7 @@ public class MinioContainer extends GenericContainer<MinioContainer> {
     protected static final String DEFAULT_TAG = "RELEASE.2021-10-13T00-23-17Z.fips";
     private static final int MINIO_INTERNAL_PORT = 9000;
     private static final String DEFAULT_STORAGE_DIRECTORY = "/data";
+    private static final String MINIO_HEALTH_ENDPOINT = "/minio/health/ready";
     private static final String MINIO_ROOT_USER = "MINIO_ROOT_USER";
     private static final String MINIO_ROOT_PASSWORD = "MINIO_ROOT_PASSWORD";
 
@@ -36,7 +37,7 @@ public class MinioContainer extends GenericContainer<MinioContainer> {
 
     public MinioContainer(Credentials credentials, DockerImageName dockerImageName) {
         super(dockerImageName);
-        addExposedPorts(9000, 9001);
+        addExposedPorts(9000);
         if (credentials != null) {
             withEnv(MINIO_ROOT_USER, credentials.getUsername());
             withEnv(MINIO_ROOT_PASSWORD, credentials.getPassword());
@@ -44,8 +45,8 @@ public class MinioContainer extends GenericContainer<MinioContainer> {
         withCommand("server", DEFAULT_STORAGE_DIRECTORY);
         setWaitStrategy(new HttpWaitStrategy()
                 .forPort(MINIO_INTERNAL_PORT)
-                .forPath(DEFAULT_STORAGE_DIRECTORY)
-                .withStartupTimeout(Duration.ofMinutes(1)));
+                .forPath(MINIO_HEALTH_ENDPOINT)
+                .withStartupTimeout(Duration.ofMinutes(2)));
     }
 
     public String getHostAddress() {

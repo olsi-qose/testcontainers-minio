@@ -1,21 +1,20 @@
 package org.testcontainers.minio;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import java.util.List;
-
-import javax.annotation.Nullable;
-
-import org.junit.After;
-import org.junit.Test;
-
+import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.client.builder.AwsClientBuilder;
+import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.Bucket;
+import org.junit.After;
+import org.junit.Test;
+
+import javax.annotation.Nullable;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 public class MinioContainerTest {
 
@@ -39,6 +38,7 @@ public class MinioContainerTest {
         try (
                 final MinioContainer minioContainer = new MinioContainer(new MinioContainer.Credentials(ACCESS_KEY, SECRET_KEY));
         ) {
+
             minioContainer.start();
             client = getS3Client(minioContainer);
             Bucket bucket = client.createBucket(BUCKET);
@@ -48,15 +48,19 @@ public class MinioContainerTest {
             List<Bucket> buckets = client.listBuckets();
             assertNotNull(buckets);
             assertEquals(1, buckets.size());
+        } catch (Exception e) {
+            fail();
         }
     }
 
     private AmazonS3 getS3Client(MinioContainer container) {
-        AmazonS3ClientBuilder clientBuilder = AmazonS3ClientBuilder.standard();
+        AWSCredentials credentials = new BasicAWSCredentials(ACCESS_KEY, SECRET_KEY);
 
-        String serviceEndpoint = "http://" + container.getHostAddress();
-        clientBuilder.withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(serviceEndpoint, "us-east-1"));
-        clientBuilder.withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(ACCESS_KEY, SECRET_KEY)));
-        return clientBuilder.build();
+        return AmazonS3ClientBuilder
+                .standard()
+                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("http://" + container.getHostAddress(), Regions.US_EAST_1.name()))
+                .withPathStyleAccessEnabled(true)
+                .withCredentials(new AWSStaticCredentialsProvider(credentials))
+                .build();
     }
 }
