@@ -18,6 +18,10 @@ public class MinioContainer extends GenericContainer<MinioContainer> {
 
     private static final DockerImageName DEFAULT_IMAGE_NAME = DockerImageName.parse("quay.io/minio/minio");
 
+    public MinioContainer() {
+        this(Credentials.DEFAULT, DEFAULT_IMAGE_NAME.withTag(DEFAULT_TAG));
+    }
+
     /**
      * Create a Minio Container by passing the full docker image name
      *
@@ -54,7 +58,7 @@ public class MinioContainer extends GenericContainer<MinioContainer> {
     }
 
     public String getHttpHostAddress() {
-        return getHost() + ":" + getMappedPort(MINIO_INTERNAL_PORT);
+        return "http://" + getHost() + ":" + getMappedPort(MINIO_INTERNAL_PORT);
     }
 
     public InetSocketAddress getTcpHost() {

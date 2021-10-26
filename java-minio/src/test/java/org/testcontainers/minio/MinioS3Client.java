@@ -10,24 +10,20 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 
 public class MinioS3Client implements AutoCloseable {
 
-    private static final String BUCKET = "bucket";
-
     private final AmazonS3 client;
 
-    public MinioS3Client(String endpoint, String accessKey, String secretKey) {
-        this.client = getClient(endpoint, accessKey, secretKey);
-    }
-
-    public String getBucket() {
-        return BUCKET;
+    public MinioS3Client(String endpoint, MinioContainer.Credentials credentials) {
+        this.client = getClient(endpoint, credentials);
     }
 
     public AmazonS3 getClient() {
         return client;
     }
 
-    private AmazonS3 getClient(String endpoint, String accessKey, String secretKey) {
-        AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
+    private AmazonS3 getClient(String endpoint, MinioContainer.Credentials containerCredentials) {
+        AWSCredentials credentials = new BasicAWSCredentials(
+                containerCredentials.getUsername(),
+                containerCredentials.getPassword());
 
         return AmazonS3ClientBuilder
                 .standard()
@@ -39,6 +35,8 @@ public class MinioS3Client implements AutoCloseable {
 
     @Override
     public void close() throws Exception {
-        client.shutdown();
+        if (client != null) {
+            client.shutdown();
+        }
     }
 }
