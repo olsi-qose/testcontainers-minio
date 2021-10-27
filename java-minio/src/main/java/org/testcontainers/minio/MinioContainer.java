@@ -27,10 +27,12 @@ public class MinioContainer extends GenericContainer<MinioContainer> {
      *
      * @param dockerImageName Full docker image name as a {@link String}, like: minio/minio:7.9.2
      */
+    @SuppressWarnings("unused")
     public MinioContainer(String dockerImageName) {
         this(Credentials.DEFAULT, DockerImageName.parse(dockerImageName));
     }
 
+    @SuppressWarnings("unused")
     public MinioContainer(DockerImageName dockerImageName) {
         this(Credentials.DEFAULT, dockerImageName);
     }
@@ -53,11 +55,13 @@ public class MinioContainer extends GenericContainer<MinioContainer> {
                 .withStartupTimeout(Duration.ofMinutes(2)));
     }
 
+    @SuppressWarnings("unused")
     public String getHostAddress() {
         return getContainerIpAddress() + ":" + getMappedPort(MINIO_INTERNAL_PORT);
     }
 
     public String getHttpHostAddress() {
+        //noinspection HttpUrlsUsage
         return "http://" + getHost() + ":" + getMappedPort(MINIO_INTERNAL_PORT);
     }
 

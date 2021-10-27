@@ -1,5 +1,7 @@
 //file:noinspection GrUnresolvedAccess
 //file:noinspection GroovyAssignabilityCheck
+//file:noinspection SpellCheckingInspection
+
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 buildscript {
@@ -51,7 +53,6 @@ subprojects { project ->
 // specified on the java-compile tasks. The only option that be specified here
 // is the name of the root package to be analysed.
     nullaway {
-        //noinspection GrUnresolvedAccess
         annotatedPackages.add("org.testcontainers")
         annotatedPackages.add("com.dimafeng")
     }

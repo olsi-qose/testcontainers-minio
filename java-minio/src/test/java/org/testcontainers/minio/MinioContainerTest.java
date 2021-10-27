@@ -13,6 +13,7 @@ public class MinioContainerTest {
     private static final String BUCKET_NAME = "bucket";
     private static final MinioContainer.Credentials CREDENTIALS = new MinioContainer.Credentials("accessKey", "secretKey");
 
+    @SuppressWarnings("RedundantThrows")
     @Test
     public void testContainer() throws Exception {
         try (final MinioContainer minioContainer = new MinioContainer(CREDENTIALS)) {
@@ -31,6 +32,7 @@ public class MinioContainerTest {
         }
     }
 
+    @SuppressWarnings("RedundantThrows")
     @Test
     public void testContainerWithDefaultCredentials() throws Exception {
         try (final MinioContainer minioContainer = new MinioContainer()) {

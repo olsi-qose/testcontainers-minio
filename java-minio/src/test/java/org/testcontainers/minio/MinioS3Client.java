@@ -34,7 +34,7 @@ public class MinioS3Client implements AutoCloseable {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() {
         if (client != null) {
             client.shutdown();
         }
