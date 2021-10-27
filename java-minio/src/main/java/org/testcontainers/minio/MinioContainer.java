@@ -65,6 +65,7 @@ public class MinioContainer extends GenericContainer<MinioContainer> {
         return "http://" + getHost() + ":" + getMappedPort(MINIO_INTERNAL_PORT);
     }
 
+    @SuppressWarnings("unused")
     public InetSocketAddress getTcpHost() {
         return new InetSocketAddress(getHost(), getMappedPort(MINIO_INTERNAL_PORT));
     }
