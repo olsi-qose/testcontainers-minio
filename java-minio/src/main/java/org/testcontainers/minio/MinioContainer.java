@@ -1,11 +1,11 @@
 package org.testcontainers.minio;
 
-import java.net.InetSocketAddress;
-import java.time.Duration;
-
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.HttpWaitStrategy;
 import org.testcontainers.utility.DockerImageName;
+
+import java.net.InetSocketAddress;
+import java.time.Duration;
 
 public class MinioContainer extends GenericContainer<MinioContainer> {
 

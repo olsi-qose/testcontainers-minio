@@ -15,7 +15,7 @@ public class MinioContainerTest {
 
     @Test
     public void testContainer() throws Exception {
-        try ( final MinioContainer minioContainer = new MinioContainer(CREDENTIALS) ) {
+        try (final MinioContainer minioContainer = new MinioContainer(CREDENTIALS)) {
             minioContainer.start();
 
             try (
@@ -33,7 +33,7 @@ public class MinioContainerTest {
 
     @Test
     public void testContainerWithDefaultCredentials() throws Exception {
-        try ( final MinioContainer minioContainer = new MinioContainer() ) {
+        try (final MinioContainer minioContainer = new MinioContainer()) {
             minioContainer.start();
 
             try (
