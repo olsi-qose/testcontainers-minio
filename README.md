@@ -23,7 +23,6 @@ public class MinioBackedTest {
 
     @Test
     public void testWithContainer() {
-        ...
     }
 }
 ```
@@ -38,7 +37,6 @@ class MysqlSpec extends AnyFlatSpec with ForAllTestContainer {
   override val container: MinioContainer = MinioContainer()
 
   "MinIO container" should "be started" in {
-     ...
   }
 }
 ```
