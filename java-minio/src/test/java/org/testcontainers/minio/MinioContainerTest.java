@@ -1,5 +1,16 @@
 package org.testcontainers.minio;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
+import java.util.List;
+
+import javax.annotation.Nullable;
+
+import org.junit.After;
+import org.junit.Test;
+
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -8,13 +19,6 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.Bucket;
-import org.junit.After;
-import org.junit.Test;
-
-import javax.annotation.Nullable;
-import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class MinioContainerTest {
 
@@ -36,7 +40,7 @@ public class MinioContainerTest {
     @Test
     public void testContainer() {
         try (
-                final MinioContainer minioContainer = new MinioContainer(new MinioContainer.Credentials(ACCESS_KEY, SECRET_KEY));
+                final MinioContainer minioContainer = new MinioContainer(new MinioContainer.Credentials(ACCESS_KEY, SECRET_KEY))
         ) {
 
             minioContainer.start();
