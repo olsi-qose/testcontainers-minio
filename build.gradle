@@ -184,9 +184,9 @@ subprojects { project ->
                         //noinspection GroovyAssignabilityCheck
                         url = "https://github.com/olsi-qose/testcontainers-minio/issues"
                     }
-                    //noinspection GroovyAssignabilityCheck
+                    //noinspection GrUnresolvedAccess
                     developers {
-                        //noinspection GroovyAssignabilityCheck
+                        //noinspection GrUnresolvedAccess
                         developer {
                             //noinspection GroovyAssignabilityCheck
                             id = 'olsi-qose'
@@ -196,9 +196,9 @@ subprojects { project ->
                             email = 'olsi.qose@gmail.com'
                         }
                     }
-                    //noinspection GroovyAssignabilityCheck
+                    //noinspection GrUnresolvedAccess
                     contributors {
-                        //noinspection GroovyAssignabilityCheck
+                        //noinspection GrUnresolvedAccess
                         contributor {
                             //noinspection GroovyAssignabilityCheck
                             id = 'mridang'
