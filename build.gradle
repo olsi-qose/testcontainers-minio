@@ -148,6 +148,7 @@ subprojects { project ->
                 //noinspection GroovyAssignabilityCheck
                 artifact scaladocJar
 
+                //noinspection GroovyAssignabilityCheck
                 pom {
                     //noinspection GroovyAssignabilityCheck
                     name = 'testcontainers-minio'
@@ -155,7 +156,9 @@ subprojects { project ->
                     description = 'MinIO support for the test containers project.'
                     //noinspection GroovyAssignabilityCheck
                     url = 'https://github.com/olsi-qose/testcontainers-minio'
+                    //noinspection GroovyAssignabilityCheck
                     licenses {
+                        //noinspection GroovyAssignabilityCheck
                         license {
                             //noinspection GroovyAssignabilityCheck
                             name = 'The MIT License (MIT)'
@@ -165,6 +168,7 @@ subprojects { project ->
                             distribution = 'repo'
                         }
                     }
+                    //noinspection GroovyAssignabilityCheck
                     scm {
                         //noinspection GroovyAssignabilityCheck
                         url = 'https://github.com/olsi-qose/testcontainers-minio'
@@ -173,13 +177,16 @@ subprojects { project ->
                         //noinspection GroovyAssignabilityCheck
                         developerConnection = 'scm:git:git://github.com/olsi-qose/testcontainers-minio'
                     }
+                    //noinspection GroovyAssignabilityCheck
                     issueManagement {
                         //noinspection GroovyAssignabilityCheck
                         system = "Github"
                         //noinspection GroovyAssignabilityCheck
                         url = "https://github.com/olsi-qose/testcontainers-minio/issues"
                     }
+                    //noinspection GroovyAssignabilityCheck
                     developers {
+                        //noinspection GroovyAssignabilityCheck
                         developer {
                             //noinspection GroovyAssignabilityCheck
                             id = 'olsi-qose'
@@ -189,7 +196,9 @@ subprojects { project ->
                             email = 'olsi.qose@gmail.com'
                         }
                     }
+                    //noinspection GroovyAssignabilityCheck
                     contributors {
+                        //noinspection GroovyAssignabilityCheck
                         contributor {
                             //noinspection GroovyAssignabilityCheck
                             id = 'mridang'
