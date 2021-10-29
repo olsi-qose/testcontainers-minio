@@ -1,11 +1,11 @@
 package org.testcontainers.minio;
 
-import java.net.InetSocketAddress;
-import java.time.Duration;
-
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.HttpWaitStrategy;
 import org.testcontainers.utility.DockerImageName;
+
+import java.net.InetSocketAddress;
+import java.time.Duration;
 
 public class MinioContainer extends GenericContainer<MinioContainer> {
 
@@ -18,15 +18,21 @@ public class MinioContainer extends GenericContainer<MinioContainer> {
 
     private static final DockerImageName DEFAULT_IMAGE_NAME = DockerImageName.parse("quay.io/minio/minio");
 
+    public MinioContainer() {
+        this(Credentials.DEFAULT, DEFAULT_IMAGE_NAME.withTag(DEFAULT_TAG));
+    }
+
     /**
      * Create a Minio Container by passing the full docker image name
      *
      * @param dockerImageName Full docker image name as a {@link String}, like: minio/minio:7.9.2
      */
+    @SuppressWarnings("unused")
     public MinioContainer(String dockerImageName) {
         this(Credentials.DEFAULT, DockerImageName.parse(dockerImageName));
     }
 
+    @SuppressWarnings("unused")
     public MinioContainer(DockerImageName dockerImageName) {
         this(Credentials.DEFAULT, dockerImageName);
     }
@@ -49,14 +55,17 @@ public class MinioContainer extends GenericContainer<MinioContainer> {
                 .withStartupTimeout(Duration.ofMinutes(2)));
     }
 
+    @SuppressWarnings("unused")
     public String getHostAddress() {
         return getContainerIpAddress() + ":" + getMappedPort(MINIO_INTERNAL_PORT);
     }
 
     public String getHttpHostAddress() {
-        return getHost() + ":" + getMappedPort(MINIO_INTERNAL_PORT);
+        //noinspection HttpUrlsUsage
+        return "http://" + getHost() + ":" + getMappedPort(MINIO_INTERNAL_PORT);
     }
 
+    @SuppressWarnings("unused")
     public InetSocketAddress getTcpHost() {
         return new InetSocketAddress(getHost(), getMappedPort(MINIO_INTERNAL_PORT));
     }
