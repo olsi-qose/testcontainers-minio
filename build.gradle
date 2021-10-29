@@ -42,19 +42,27 @@ subprojects { project ->
         //testImplementation group: 'org.scalatestplus', name: 'junit-4-12_2.12', version: '3.2.2.0'
         //noinspection GrUnresolvedAccess
         testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.2.0'
+        //noinspection GrUnresolvedAccess
         testRuntimeOnly group: 'org.junit.vintage', name: 'junit-vintage-engine', version: '5.2.0'
+        //noinspection GrUnresolvedAccess
         testRuntimeOnly group: 'org.scala-lang.modules', name: 'scala-xml_2.12', version: '1.2.0'
+        //noinspection GrUnresolvedAccess
         testRuntimeOnly group: 'com.vladsch.flexmark', name: 'flexmark-all', version: '0.35.10'
+        //noinspection GrUnresolvedAccess
         implementation group: 'org.scala-lang', name: 'scala-library', version: '2.12.13'
+        //noinspection GrUnresolvedAccess
         errorprone group: 'com.uber.nullaway', name: 'nullaway', version: '0.9.1'
+        //noinspection GrUnresolvedAccess
         errorprone group: 'com.google.errorprone', name: 'error_prone_core', version: '2.6.0'
     }
 
 // Configuration for the nullaway extension. The rest of the parameters must be
 // specified on the java-compile tasks. The only option that be specified here
 // is the name of the root package to be analysed.
+    //noinspection GrUnresolvedAccess
     nullaway {
         annotatedPackages.add("org.testcontainers")
+        //noinspection GrUnresolvedAccess
         annotatedPackages.add("com.dimafeng")
     }
 
@@ -141,6 +149,7 @@ subprojects { project ->
                 //noinspection GroovyAssignabilityCheck
                 artifact scaladocJar
 
+                //noinspection GroovyAssignabilityCheck
                 pom {
                     //noinspection GroovyAssignabilityCheck
                     name = 'testcontainers-minio'
@@ -148,7 +157,9 @@ subprojects { project ->
                     description = 'MinIO support for the test containers project.'
                     //noinspection GroovyAssignabilityCheck
                     url = 'https://github.com/olsi-qose/testcontainers-minio'
+                    //noinspection GroovyAssignabilityCheck
                     licenses {
+                        //noinspection GroovyAssignabilityCheck
                         license {
                             //noinspection GroovyAssignabilityCheck
                             name = 'The MIT License (MIT)'
@@ -158,6 +169,7 @@ subprojects { project ->
                             distribution = 'repo'
                         }
                     }
+                    //noinspection GroovyAssignabilityCheck
                     scm {
                         //noinspection GroovyAssignabilityCheck
                         url = 'https://github.com/olsi-qose/testcontainers-minio'
@@ -166,13 +178,16 @@ subprojects { project ->
                         //noinspection GroovyAssignabilityCheck
                         developerConnection = 'scm:git:git://github.com/olsi-qose/testcontainers-minio'
                     }
+                    //noinspection GroovyAssignabilityCheck
                     issueManagement {
                         //noinspection GroovyAssignabilityCheck
                         system = "Github"
                         //noinspection GroovyAssignabilityCheck
                         url = "https://github.com/olsi-qose/testcontainers-minio/issues"
                     }
+                    //noinspection GrUnresolvedAccess
                     developers {
+                        //noinspection GrUnresolvedAccess
                         developer {
                             //noinspection GroovyAssignabilityCheck
                             id = 'olsi-qose'
@@ -182,7 +197,9 @@ subprojects { project ->
                             email = 'olsi.qose@gmail.com'
                         }
                     }
+                    //noinspection GrUnresolvedAccess
                     contributors {
+                        //noinspection GrUnresolvedAccess
                         contributor {
                             //noinspection GroovyAssignabilityCheck
                             id = 'mridang'
