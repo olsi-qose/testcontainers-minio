@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+  ~  Copyright (c) 2021 Nosto Solutions Ltd All Rights Reserved.
+  ~
+  ~  This software is the confidential and proprietary information of
+  ~  Nosto Solutions Ltd ("Confidential Information"). You shall not
+  ~  disclose such Confidential Information and shall use it only in
+  ~  accordance with the terms of the agreement you entered into with
+  ~  Nosto Solutions Ltd.
+  -->
+
+<!DOCTYPE suppressions [
+        <!ELEMENT suppressions (suppress*)>
+
+        <!ELEMENT suppress EMPTY>
+        <!ATTLIST suppress files CDATA #IMPLIED
+                checks CDATA #IMPLIED
+                message CDATA #IMPLIED
+                id CDATA #IMPLIED
+                lines CDATA #IMPLIED
+                columns CDATA #IMPLIED>
+        ]>
+
+<suppressions>
+    <!-- Suppress these checks for test code. -->
+    <suppress checks="MagicNumberCheck" files="/src/test/java"/>
+    <suppress checks="JavadocMethod" files="/src/test/java"/>
+    <suppress checks="JavadocType" files="/src/test/java"/>
+    <suppress checks="JavadocVariable" files="/src/test/java"/>
+    <suppress checks="JavadocStyle" files="/src/test/java"/>
+    <suppress checks="VisibilityModifier" files="/src/test/java"/>
+    <suppress checks="DesignForExtension" files="/src/test/java"/>
+</suppressions>

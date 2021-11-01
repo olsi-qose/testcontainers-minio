@@ -33,10 +33,12 @@
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.plumelib/reflection-util/0.2.2/28674ec1ae8762d4e572fa02497b28cc61c03203/reflection-util-0.2.2.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jgit/org.eclipse.jgit/4.4.1.201607150455-r/63998ced66e425d9e8bcd0c59f710c98f0c021ff/org.eclipse.jgit-4.4.1.201607150455-r.jar" />
         </processorPath>
-        <module name="testcontainers-minio.java-minio.main" />
-        <module name="testcontainers-minio.scala-minio.test" />
-        <module name="testcontainers-minio.java-minio.test" />
+        <module name="testcontainers-minio.main" />
         <module name="testcontainers-minio.scala-minio.main" />
+        <module name="testcontainers-minio.java-minio.test" />
+        <module name="testcontainers-minio.test" />
+        <module name="testcontainers-minio.scala-minio.test" />
+        <module name="testcontainers-minio.java-minio.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="11" />
