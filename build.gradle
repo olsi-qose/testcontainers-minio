@@ -1,69 +1,69 @@
-//file:noinspection GroovyAssignabilityCheck
-//file:noinspection SpellCheckingInspection
 //file:noinspection GrUnresolvedAccess
-
+//file:noinspection GroovyAssignabilityCheck
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 buildscript {
     repositories {
+        google()
         mavenCentral()
         gradlePluginPortal()
     }
     dependencies {
         classpath "org.github.ngbinh.scalastyle:gradle-scalastyle-plugin_2.11:1.0.1"
+        classpath "com.diffplug.spotless:spotless-plugin-gradle:5.12.4"
+        classpath "gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.7.1"
         classpath "net.ltgt.gradle:gradle-errorprone-plugin:2.0.1"
         classpath "net.ltgt.gradle:gradle-nullaway-plugin:1.1.0"
         classpath "gradle.plugin.com.dorongold.plugins:task-tree:1.5"
-        //classpath "gradle.plugin.com.github.maiflai:gradle-scalatest:0.31"
     }
 }
 
-subprojects { project ->
+allprojects { project ->
 
     apply plugin: 'java'
+    apply plugin: 'checkstyle'
     apply plugin: 'scalaStyle'
     apply plugin: 'scala'
+    apply plugin: "com.github.spotbugs"
     apply plugin: 'maven-publish'
     apply plugin: 'java-library'
+    apply plugin: 'com.diffplug.spotless'
     apply plugin: 'net.ltgt.errorprone'
     apply plugin: 'net.ltgt.nullaway'
     apply plugin: "com.dorongold.task-tree"
     apply plugin: "jacoco"
-    //apply plugin: "com.github.maiflai.scalatest"
 
     group 'org.testcontainers'
     version '1.16.0'
 
     repositories {
         mavenCentral()
+        maven {
+            url 'https://maven.onehippo.com/maven2/'
+        }
     }
 
     dependencies {
-        //testImplementation group: 'org.scalatestplus', name: 'junit-4-12_2.12', version: '3.2.2.0'
-        //noinspection GrUnresolvedAccess
+        testImplementation group: 'org.scalatestplus', name: 'junit-4-12_2.12', version: '3.2.2.0'
         testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.2.0'
-        //noinspection GrUnresolvedAccess
         testRuntimeOnly group: 'org.junit.vintage', name: 'junit-vintage-engine', version: '5.2.0'
-        //noinspection GrUnresolvedAccess
         testRuntimeOnly group: 'org.scala-lang.modules', name: 'scala-xml_2.12', version: '1.2.0'
-        //noinspection GrUnresolvedAccess
         testRuntimeOnly group: 'com.vladsch.flexmark', name: 'flexmark-all', version: '0.35.10'
-        //noinspection GrUnresolvedAccess
         implementation group: 'org.scala-lang', name: 'scala-library', version: '2.12.13'
-        //noinspection GrUnresolvedAccess
+        implementation group: 'javax.annotation', name: 'jsr305', version: '1.0'
+        compileOnly group: 'com.github.spotbugs', name: 'spotbugs-annotations', version: '3.1.3'
+        testCompileOnly group: 'com.github.spotbugs', name: 'spotbugs-annotations', version: '3.1.3'
         errorprone group: 'com.uber.nullaway', name: 'nullaway', version: '0.9.1'
-        //noinspection GrUnresolvedAccess
         errorprone group: 'com.google.errorprone', name: 'error_prone_core', version: '2.6.0'
+        spotbugsPlugins group: 'com.h3xstream.findsecbugs', name: 'findsecbugs-plugin', version: '1.10.1'
     }
 
 // Configuration for the nullaway extension. The rest of the parameters must be
 // specified on the java-compile tasks. The only option that be specified here
 // is the name of the root package to be analysed.
-    //noinspection GrUnresolvedAccess
     nullaway {
-        annotatedPackages.add("org.testcontainers")
         //noinspection GrUnresolvedAccess
-        annotatedPackages.add("com.dimafeng")
+        annotatedPackages.addAll(["org.testcontainers", "com.dimafeng"])
     }
 
 // Configuration for the Scalastyle plugin. It seems that it isn't possible to define
@@ -98,6 +98,7 @@ subprojects { project ->
             junitXml.enabled = true
             html.enabled = true
         }
+        maxParallelForks = (int) (Runtime.runtime.availableProcessors() / 2 + 1)
         finalizedBy jacocoTestReport // report is always generated after tests run
     }
 
@@ -128,8 +129,67 @@ subprojects { project ->
         archives scaladocJar
     }
 
-    publishing {
+    // Configuration for the Spotbugs plugin. It seems that it isn't possible to define
+    // the output report formats here and those seem to be defined on the individual
+    // task level.
+    // I'm not sure why the tool version is defined here and it isn't managed as a
+    // dependency.
+    spotbugs {
+        //noinspection GroovyAccessibility,GrFinalVariableAccess,GroovyAssignabilityCheck
+        toolVersion = '4.0.2'
+        //noinspection GroovyAccessibility,GrFinalVariableAccess,GroovyAssignabilityCheck
+        ignoreFailures = true
+        //noinspection GroovyAccessibility,GrFinalVariableAccess,GroovyAssignabilityCheck
+        effort = 'max'
+        // Exclude all *.scala files as Spotbugs doesn't work too well with Scala.
+        //noinspection GroovyAccessibility,GrFinalVariableAccess,GroovyAssignabilityCheck
+        excludeFilter = file("$rootDir/gradle/config/spotbugs/exclude.xml")
+    }
+
+    // We only need the XML report so that the CI tools can parse it. The HTML isn't needed.
+    spotbugsMain {
         //noinspection GroovyAssignabilityCheck
+        reports {
+            xml.enabled = true
+        }
+    }
+
+    // We only need the XML report so that the CI tools can parse it. The HTML isn't needed.
+    spotbugsTest {
+        //noinspection GroovyAssignabilityCheck
+        reports {
+            xml.enabled = true
+        }
+    }
+
+    // Configuration for the Checkstyle plugin. It seems that it isn't possible to define
+    // the output report formats here and those seem to be defined on the individual
+    // task level.
+    // I'm not sure why the tool version is defined here and it isn't managed as a
+    // dependency.
+    checkstyle {
+        toolVersion "7.6.1"
+        config rootProject.resources.text.fromFile("gradle/config/checkstyle/checkstyle.xml")
+    }
+
+    // We only need the XML report so that the CI tools can parse it. The HTML isn't needed
+    // and must be explicitly disabled
+    checkstyleMain {
+        reports {
+            xml.enabled = true
+            html.enabled = false
+        }
+    }
+
+    // We only need the XML report so that the CI tools can parse it. The HTML isn't needed.
+    checkstyleTest {
+        reports {
+            xml.enabled = true
+            html.enabled = false
+        }
+    }
+
+    publishing {
         repositories {
             maven {
                 name = "github"
@@ -149,45 +209,24 @@ subprojects { project ->
                 //noinspection GroovyAssignabilityCheck
                 artifact scaladocJar
 
-                //noinspection GroovyAssignabilityCheck
                 pom {
                     //noinspection GroovyAssignabilityCheck
                     name = 'testcontainers-minio'
                     //noinspection GroovyAssignabilityCheck
-                    description = 'MinIO support for the test containers project.'
+                    description = 'Isolated MinIO container management for Java code testing'
                     //noinspection GroovyAssignabilityCheck
                     url = 'https://github.com/olsi-qose/testcontainers-minio'
-                    //noinspection GroovyAssignabilityCheck
                     licenses {
-                        //noinspection GroovyAssignabilityCheck
                         license {
                             //noinspection GroovyAssignabilityCheck
-                            name = 'The MIT License (MIT)'
+                            name = 'The Apache Software License, Version 2.0'
                             //noinspection GroovyAssignabilityCheck
-                            url = 'https://opensource.org/licenses/MIT'
+                            url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
                             //noinspection GroovyAssignabilityCheck
                             distribution = 'repo'
                         }
                     }
-                    //noinspection GroovyAssignabilityCheck
-                    scm {
-                        //noinspection GroovyAssignabilityCheck
-                        url = 'https://github.com/olsi-qose/testcontainers-minio'
-                        //noinspection GroovyAssignabilityCheck
-                        connection = 'scm:git:git://github.com/olsi-qose/testcontainers-minio'
-                        //noinspection GroovyAssignabilityCheck
-                        developerConnection = 'scm:git:git://github.com/olsi-qose/testcontainers-minio'
-                    }
-                    //noinspection GroovyAssignabilityCheck
-                    issueManagement {
-                        //noinspection GroovyAssignabilityCheck
-                        system = "Github"
-                        //noinspection GroovyAssignabilityCheck
-                        url = "https://github.com/olsi-qose/testcontainers-minio/issues"
-                    }
-                    //noinspection GrUnresolvedAccess
                     developers {
-                        //noinspection GrUnresolvedAccess
                         developer {
                             //noinspection GroovyAssignabilityCheck
                             id = 'olsi-qose'
@@ -197,9 +236,7 @@ subprojects { project ->
                             email = 'olsi.qose@gmail.com'
                         }
                     }
-                    //noinspection GrUnresolvedAccess
                     contributors {
-                        //noinspection GrUnresolvedAccess
                         contributor {
                             //noinspection GroovyAssignabilityCheck
                             id = 'mridang'
@@ -208,6 +245,20 @@ subprojects { project ->
                             //noinspection GroovyAssignabilityCheck
                             email = 'mridang.agarwalla@gmail.com'
                         }
+                    }
+                    scm {
+                        //noinspection GroovyAssignabilityCheck
+                        url = 'https://github.com/olsi-qose/testcontainers-minio'
+                        //noinspection GroovyAssignabilityCheck
+                        connection = 'scm:git:git://github.com/olsi-qose/testcontainers-minio'
+                        //noinspection GroovyAssignabilityCheck
+                        developerConnection = 'scm:git:git://github.com/olsi-qose/testcontainers-minio'
+                    }
+                    issueManagement {
+                        //noinspection GroovyAssignabilityCheck
+                        system = "Github"
+                        //noinspection GroovyAssignabilityCheck
+                        url = "https://github.com/olsi-qose/testcontainers-minio/issues"
                     }
                 }
             }
