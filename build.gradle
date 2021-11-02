@@ -15,6 +15,7 @@ buildscript {
         classpath "net.ltgt.gradle:gradle-errorprone-plugin:2.0.1"
         classpath "net.ltgt.gradle:gradle-nullaway-plugin:1.1.0"
         classpath "gradle.plugin.com.dorongold.plugins:task-tree:1.5"
+        classpath "gradle.plugin.com.github.johnrengelman:shadow:7.1.0"
     }
 }
 
@@ -32,6 +33,7 @@ allprojects { project ->
     apply plugin: 'net.ltgt.nullaway'
     apply plugin: "com.dorongold.task-tree"
     apply plugin: "jacoco"
+    apply plugin: "com.github.johnrengelman.shadow"
 
     group 'org.testcontainers'
     version '1.16.0'
@@ -124,9 +126,9 @@ allprojects { project ->
         from scaladoc.destinationDir
     }
 
-    artifacts {
-        archives sourcesJar
-        archives scaladocJar
+    java {
+        withSourcesJar()
+        withJavadocJar()
     }
 
     // Configuration for the Spotbugs plugin. It seems that it isn't possible to define
@@ -204,11 +206,6 @@ allprojects { project ->
                 //noinspection GroovyAssignabilityCheck
                 from components.java
 
-                //noinspection GroovyAssignabilityCheck
-                artifact sourcesJar
-                //noinspection GroovyAssignabilityCheck
-                artifact scaladocJar
-
                 pom {
                     //noinspection GroovyAssignabilityCheck
                     name = 'testcontainers-minio'
@@ -264,4 +261,23 @@ allprojects { project ->
             }
         }
     }
+}
+
+// Task for building the zip file for upload
+task buildZip(type: Zip) {
+    zip64 = true
+    archiveBaseName.set(rootProject.name)
+    from compileJava
+    from processResources
+    into('lib') {
+        from configurations.runtimeClasspath
+    }
+}
+
+shadowJar {
+    zip64 true
+}
+
+build {
+    dependsOn buildZip
 }
