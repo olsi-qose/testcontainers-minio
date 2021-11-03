@@ -9,13 +9,13 @@ buildscript {
         gradlePluginPortal()
     }
     dependencies {
-        classpath "org.github.ngbinh.scalastyle:gradle-scalastyle-plugin_2.11:1.0.1"
-        classpath "com.diffplug.spotless:spotless-plugin-gradle:5.12.4"
-        classpath "gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.7.1"
-        classpath "net.ltgt.gradle:gradle-errorprone-plugin:2.0.1"
-        classpath "net.ltgt.gradle:gradle-nullaway-plugin:1.1.0"
-        classpath "gradle.plugin.com.dorongold.plugins:task-tree:1.5"
-        classpath "gradle.plugin.com.github.johnrengelman:shadow:7.1.0"
+        classpath group: 'org.github.ngbinh.scalastyle', name: 'gradle-scalastyle-plugin_2.11', version: '1.0.1'
+        classpath group: 'com.diffplug.spotless', name: 'spotless-plugin-gradle', version: '5.12.4'
+        classpath group: 'gradle.plugin.com.github.spotbugs.snom', name: 'spotbugs-gradle-plugin', version: '4.7.1'
+        classpath group: 'net.ltgt.gradle', name: 'gradle-errorprone-plugin', version: '2.0.1'
+        classpath group: 'net.ltgt.gradle', name: 'gradle-nullaway-plugin', version: '1.1.0'
+        classpath group: 'gradle.plugin.com.dorongold.plugins', name: 'task-tree', version: '1.5'
+        classpath group: 'gradle.plugin.com.github.johnrengelman', name: 'shadow', version: '7.1.0'
     }
 }
 
@@ -61,31 +61,31 @@ allprojects { project ->
         spotbugsPlugins group: 'com.h3xstream.findsecbugs', name: 'findsecbugs-plugin', version: '1.10.1'
     }
 
-// Configuration for the nullaway extension. The rest of the parameters must be
-// specified on the java-compile tasks. The only option that be specified here
-// is the name of the root package to be analysed.
+    // Configuration for the nullaway extension. The rest of the parameters must be
+    // specified on the java-compile tasks. The only option that be specified here
+    // is the name of the root package to be analysed.
     nullaway {
         //noinspection GrUnresolvedAccess
         annotatedPackages.addAll(["org.testcontainers", "com.dimafeng"])
     }
 
-// Configuration for the Scalastyle plugin. It seems that it isn't possible to define
-// the output report formats here and those seem to be defined on the individual
-// task level.
+    // Configuration for the Scalastyle plugin. It seems that it isn't possible to define
+    // the output report formats here and those seem to be defined on the individual
+    // task level.
     scalaStyle {
         configLocation "project/scalastyle_config.xml"
     }
 
-// Configuration for the Jacoco plugin. It seems that it isn't possible to define
-// the output report formats here and those seem to be defined on the individual
-// task level.
-// I'm not sure why the tool version is defined here and it isn't managed as a
-// dependency.
+    // Configuration for the Jacoco plugin. It seems that it isn't possible to define
+    // the output report formats here and those seem to be defined on the individual
+    // task level.
+    // I'm not sure why the tool version is defined here and it isn't managed as a
+    // dependency.
     jacoco {
         toolVersion = "0.8.5"
     }
 
-// We only need the XML report so that the CI tools can parse it. The HTML isn't needed.
+    // We only need the XML report so that the CI tools can parse it. The HTML isn't needed.
     jacocoTestReport {
         reports {
             csv.enabled = true
