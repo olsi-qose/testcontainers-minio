@@ -17,7 +17,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew build -PignoreCheckFailures=true
+        run: ./gradlew build -PignoreCheckFailures=true -PgithubUsername=${{ github.actor }} -PgithubPassword=${{ secrets.GITHUB_TOKEN }}
 
       - name: Test Report
         uses: scacap/action-surefire-report@v1.0.9
@@ -29,6 +29,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: gradle-build
-          path: |
-            java-minio/build
-            scala-minio/build
+          path: ./**/build/
