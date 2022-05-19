@@ -5,28 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ef1827bf-749c-4b7b-b8a2-1e1c405340f9" name="Default Changelist" comment=".">
-      <change afterPath="$PROJECT_DIR$/.github/ISSUE_TEMPLATE/bug_report.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.github/ISSUE_TEMPLATE/documentation-issue.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.github/ISSUE_TEMPLATE/feature_request.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.github/pull_request_template.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.github/workflows/qodana.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/buildSrc/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/buildSrc/src/main/groovy/myproject.java-conventions.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/buildSrc/src/main/groovy/myproject.scala-conventions.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/buildSrc/src/main/groovy/myproject.spring-conventions.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/build.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/inspect.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/scala_compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/scala_compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/config/checkstyle/sun_checks.xml" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/config/checkstyle/sun_checks.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inspect.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-minio/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/java-minio/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scala-minio/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/scala-minio/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.github/workflows/tests.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/build.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,7 +109,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "jdk.selected.JAVA_MODULE": "11",
     "last_directory_selection": "/Users/mridang/Nosto/testcontainers-minio/scala-minio/src/testFixtures/scala",
-    "last_opened_file_path": "/Users/mridang/Nosto/testcontainers-minio/buildSrc/src/main/groovy",
+    "last_opened_file_path": "/Users/mridang/Nosto/testcontainers-minio/.github/workflows",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
@@ -141,9 +122,9 @@
       <recent name="org.jeasy.random.randomizers.extras" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/.github/workflows" />
       <recent name="$PROJECT_DIR$/buildSrc/src/main/groovy" />
       <recent name="$PROJECT_DIR$/.github" />
-      <recent name="$PROJECT_DIR$/.github/workflows" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/gradle" />
     </key>
