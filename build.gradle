@@ -1,284 +1,102 @@
-//file:noinspection GrUnresolvedAccess
-//file:noinspection GroovyAssignabilityCheck
-import org.gradle.api.tasks.testing.logging.TestLogEvent
-
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
-    }
-    dependencies {
-        classpath group: 'org.github.ngbinh.scalastyle', name: 'gradle-scalastyle-plugin_2.11', version: '1.0.1'
-        classpath group: 'com.diffplug.spotless', name: 'spotless-plugin-gradle', version: '5.12.4'
-        classpath group: 'gradle.plugin.com.github.spotbugs.snom', name: 'spotbugs-gradle-plugin', version: '4.7.1'
-        classpath group: 'net.ltgt.gradle', name: 'gradle-errorprone-plugin', version: '2.0.1'
-        classpath group: 'net.ltgt.gradle', name: 'gradle-nullaway-plugin', version: '1.1.0'
-        classpath group: 'gradle.plugin.com.dorongold.plugins', name: 'task-tree', version: '1.5'
-        classpath group: 'gradle.plugin.com.github.johnrengelman', name: 'shadow', version: '7.1.0'
-    }
+plugins {
+    id 'myproject.java-conventions'
 }
 
-allprojects { project ->
+group 'org.testcontainers'
+version '1.17.0'
 
-    apply plugin: 'java'
-    apply plugin: 'checkstyle'
-    apply plugin: 'scalaStyle'
-    apply plugin: 'scala'
-    apply plugin: "com.github.spotbugs"
-    apply plugin: 'maven-publish'
-    apply plugin: 'java-library'
-    apply plugin: "jacoco"
-    apply plugin: "com.github.johnrengelman.shadow"
-    apply plugin: 'com.diffplug.spotless'
-    apply plugin: "com.github.spotbugs"
-    apply plugin: 'net.ltgt.errorprone'
-    apply plugin: 'net.ltgt.nullaway'
-    apply plugin: "com.dorongold.task-tree"
+java {
+    sourceCompatibility "11"
+    targetCompatibility "11"
+}
 
-    group 'org.testcontainers'
-    version '1.16.0'
+dependencies {
+    testImplementation group: 'junit', name: 'junit', version: '4.13.2'
+    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.8.2'
+    testRuntimeOnly group: 'org.junit.vintage', name: 'junit-vintage-engine', version: '5.8.2'
+    testImplementation group: 'org.scalatestplus', name: 'junit-4-12_2.12', version: '3.2.2.0'
+    testRuntimeOnly group: 'org.scala-lang.modules', name: 'scala-xml_2.12', version: '2.1.0'
+    testRuntimeOnly group: 'com.vladsch.flexmark', name: 'flexmark-all', version: '0.64.0'
+    implementation group: 'org.scala-lang', name: 'scala-library', version: '2.13.8'
+    implementation group: 'javax.annotation', name: 'jsr305', version: '1.0'
+    compileOnly group: 'com.github.spotbugs', name: 'spotbugs-annotations', version: '4.6.0'
+    testCompileOnly group: 'com.github.spotbugs', name: 'spotbugs-annotations', version: '4.6.0'
+    errorprone group: 'com.uber.nullaway', name: 'nullaway', version: '0.9.7'
+    errorprone group: 'com.google.errorprone', name: 'error_prone_core', version: '2.13.1'
+    spotbugsPlugins group: 'com.h3xstream.findsecbugs', name: 'findsecbugs-plugin', version: '1.12.0'
+}
 
+publishing {
     repositories {
-        mavenCentral()
         maven {
-            url 'https://maven.onehippo.com/maven2/'
+            name = "github"
+            url = uri("https://maven.pkg.github.com/olsi-qose/testcontainers-minio")
+            credentials(PasswordCredentials)
         }
     }
-
-    dependencies {
-        testImplementation group: 'org.scalatestplus', name: 'junit-4-12_2.12', version: '3.2.2.0'
-        testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.2.0'
-        testRuntimeOnly group: 'org.junit.vintage', name: 'junit-vintage-engine', version: '5.2.0'
-        testRuntimeOnly group: 'org.scala-lang.modules', name: 'scala-xml_2.12', version: '1.2.0'
-        testRuntimeOnly group: 'com.vladsch.flexmark', name: 'flexmark-all', version: '0.35.10'
-        implementation group: 'org.scala-lang', name: 'scala-library', version: '2.12.13'
-        implementation group: 'javax.annotation', name: 'jsr305', version: '1.0'
-        compileOnly group: 'com.github.spotbugs', name: 'spotbugs-annotations', version: '3.1.3'
-        testCompileOnly group: 'com.github.spotbugs', name: 'spotbugs-annotations', version: '3.1.3'
-        errorprone group: 'com.uber.nullaway', name: 'nullaway', version: '0.9.1'
-        errorprone group: 'com.google.errorprone', name: 'error_prone_core', version: '2.6.0'
-        spotbugsPlugins group: 'com.h3xstream.findsecbugs', name: 'findsecbugs-plugin', version: '1.10.1'
-    }
-
-    // Configuration for the nullaway extension. The rest of the parameters must be
-    // specified on the java-compile tasks. The only option that be specified here
-    // is the name of the root package to be analysed.
-    nullaway {
-        //noinspection GrUnresolvedAccess
-        annotatedPackages.addAll(["org.testcontainers", "com.dimafeng"])
-    }
-
-    // Configuration for the Scalastyle plugin. It seems that it isn't possible to define
-    // the output report formats here and those seem to be defined on the individual
-    // task level.
-    scalaStyle {
-        configLocation "project/scalastyle_config.xml"
-    }
-
-    // Configuration for the Jacoco plugin. It seems that it isn't possible to define
-    // the output report formats here and those seem to be defined on the individual
-    // task level.
-    // I'm not sure why the tool version is defined here and it isn't managed as a
-    // dependency.
-    jacoco {
-        toolVersion = "0.8.5"
-    }
-
-    // We only need the XML report so that the CI tools can parse it. The HTML isn't needed.
-    jacocoTestReport {
-        reports {
-            csv.enabled = true
-            xml.enabled = false
-            html.enabled = true
-        }
-    }
-
-    test {
-        useJUnitPlatform()
-        testLogging.events.addAll([TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.FAILED])
-        reports {
-            junitXml.enabled = true
-            html.enabled = true
-        }
-        maxParallelForks = (int) (Runtime.runtime.availableProcessors() / 2 + 1)
-        finalizedBy jacocoTestReport // report is always generated after tests run
-    }
-
-    jacocoTestReport {
-        dependsOn test // tests are required to run before generating the report
-    }
-
-    javadoc {
-        options.addBooleanOption('html5', true)
-    }
-
-    scaladoc {
-        scalaDocOptions.additionalParameters = ['-no-link-warnings']
-    }
-
-    task sourcesJar(type: Jar, dependsOn: classes) {
-        archiveClassifier.set("sources")
-        from sourceSets.main.allSource
-    }
-
-    task scaladocJar(type: Jar, dependsOn: scaladoc) {
-        archiveClassifier.set("javadoc")
-        from scaladoc.destinationDir
-    }
-
-    java {
-        withSourcesJar()
-        withJavadocJar()
-    }
-
-    // Configuration for the Spotbugs plugin. It seems that it isn't possible to define
-    // the output report formats here and those seem to be defined on the individual
-    // task level.
-    // I'm not sure why the tool version is defined here and it isn't managed as a
-    // dependency.
-    spotbugs {
-        //noinspection GroovyAccessibility,GrFinalVariableAccess,GroovyAssignabilityCheck
-        toolVersion = '4.0.2'
-        //noinspection GroovyAccessibility,GrFinalVariableAccess,GroovyAssignabilityCheck
-        ignoreFailures = true
-        //noinspection GroovyAccessibility,GrFinalVariableAccess,GroovyAssignabilityCheck
-        effort = 'max'
-        // Exclude all *.scala files as Spotbugs doesn't work too well with Scala.
-        //noinspection GroovyAccessibility,GrFinalVariableAccess,GroovyAssignabilityCheck
-        excludeFilter = file("$rootDir/gradle/config/spotbugs/exclude.xml")
-    }
-
-    // We only need the XML report so that the CI tools can parse it. The HTML isn't needed.
-    spotbugsMain {
+    //noinspection GroovyAssignabilityCheck
+    publications {
         //noinspection GroovyAssignabilityCheck
-        reports {
-            xml.enabled = true
-        }
-    }
-
-    // We only need the XML report so that the CI tools can parse it. The HTML isn't needed.
-    spotbugsTest {
-        //noinspection GroovyAssignabilityCheck
-        reports {
-            xml.enabled = true
-        }
-    }
-
-    // Configuration for the Checkstyle plugin. It seems that it isn't possible to define
-    // the output report formats here and those seem to be defined on the individual
-    // task level.
-    // I'm not sure why the tool version is defined here and it isn't managed as a
-    // dependency.
-    checkstyle {
-        toolVersion "7.6.1"
-        config rootProject.resources.text.fromFile("gradle/config/checkstyle/checkstyle.xml")
-    }
-
-    // We only need the XML report so that the CI tools can parse it. The HTML isn't needed
-    // and must be explicitly disabled
-    checkstyleMain {
-        reports {
-            xml.enabled = true
-            html.enabled = false
-        }
-    }
-
-    // We only need the XML report so that the CI tools can parse it. The HTML isn't needed.
-    checkstyleTest {
-        reports {
-            xml.enabled = true
-            html.enabled = false
-        }
-    }
-
-    publishing {
-        repositories {
-            maven {
-                name = "github"
-                url = uri("https://maven.pkg.github.com/olsi-qose/testcontainers-minio")
-                credentials(PasswordCredentials)
-            }
-        }
-        //noinspection GroovyAssignabilityCheck
-        publications {
+        maven(MavenPublication) {
             //noinspection GroovyAssignabilityCheck
-            maven(MavenPublication) {
-                //noinspection GroovyAssignabilityCheck
-                from components.java
+            from components.java
 
-                pom {
-                    //noinspection GroovyAssignabilityCheck
-                    name = 'testcontainers-minio'
-                    //noinspection GroovyAssignabilityCheck
-                    description = 'Isolated MinIO container management for Java code testing'
+            pom {
+                //noinspection GroovyAssignabilityCheck
+                name = 'testcontainers-minio'
+                //noinspection GroovyAssignabilityCheck
+                description = 'Isolated MinIO container management for Java code testing'
+                //noinspection GroovyAssignabilityCheck
+                url = 'https://github.com/olsi-qose/testcontainers-minio'
+                licenses {
+                    license {
+                        //noinspection GroovyAssignabilityCheck
+                        name = 'The Apache Software License, Version 2.0'
+                        //noinspection GroovyAssignabilityCheck
+                        url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+                        //noinspection GroovyAssignabilityCheck
+                        distribution = 'repo'
+                    }
+                }
+                developers {
+                    developer {
+                        //noinspection GroovyAssignabilityCheck
+                        id = 'olsi-qose'
+                        //noinspection GroovyAssignabilityCheck
+                        name = 'Olsi Qose'
+                        //noinspection GroovyAssignabilityCheck
+                        email = 'olsi.qose@gmail.com'
+                    }
+                }
+                contributors {
+                    contributor {
+                        //noinspection GroovyAssignabilityCheck
+                        id = 'mridang'
+                        //noinspection GroovyAssignabilityCheck
+                        name = 'Mridang Agarwalla'
+                        //noinspection GroovyAssignabilityCheck
+                        email = 'mridang.agarwalla@gmail.com'
+                    }
+                }
+                scm {
                     //noinspection GroovyAssignabilityCheck
                     url = 'https://github.com/olsi-qose/testcontainers-minio'
-                    licenses {
-                        license {
-                            //noinspection GroovyAssignabilityCheck
-                            name = 'The Apache Software License, Version 2.0'
-                            //noinspection GroovyAssignabilityCheck
-                            url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
-                            //noinspection GroovyAssignabilityCheck
-                            distribution = 'repo'
-                        }
-                    }
-                    developers {
-                        developer {
-                            //noinspection GroovyAssignabilityCheck
-                            id = 'olsi-qose'
-                            //noinspection GroovyAssignabilityCheck
-                            name = 'Olsi Qose'
-                            //noinspection GroovyAssignabilityCheck
-                            email = 'olsi.qose@gmail.com'
-                        }
-                    }
-                    contributors {
-                        contributor {
-                            //noinspection GroovyAssignabilityCheck
-                            id = 'mridang'
-                            //noinspection GroovyAssignabilityCheck
-                            name = 'Mridang Agarwalla'
-                            //noinspection GroovyAssignabilityCheck
-                            email = 'mridang.agarwalla@gmail.com'
-                        }
-                    }
-                    scm {
-                        //noinspection GroovyAssignabilityCheck
-                        url = 'https://github.com/olsi-qose/testcontainers-minio'
-                        //noinspection GroovyAssignabilityCheck
-                        connection = 'scm:git:git://github.com/olsi-qose/testcontainers-minio'
-                        //noinspection GroovyAssignabilityCheck
-                        developerConnection = 'scm:git:git://github.com/olsi-qose/testcontainers-minio'
-                    }
-                    issueManagement {
-                        //noinspection GroovyAssignabilityCheck
-                        system = "Github"
-                        //noinspection GroovyAssignabilityCheck
-                        url = "https://github.com/olsi-qose/testcontainers-minio/issues"
-                    }
+                    //noinspection GroovyAssignabilityCheck
+                    connection = 'scm:git:git://github.com/olsi-qose/testcontainers-minio'
+                    //noinspection GroovyAssignabilityCheck
+                    developerConnection = 'scm:git:git://github.com/olsi-qose/testcontainers-minio'
+                }
+                issueManagement {
+                    //noinspection GroovyAssignabilityCheck
+                    system = "Github"
+                    //noinspection GroovyAssignabilityCheck
+                    url = "https://github.com/olsi-qose/testcontainers-minio/issues"
                 }
             }
         }
     }
 }
 
-// Task for building the zip file for upload
-task buildZip(type: Zip) {
-    zip64 = true
-    archiveBaseName.set(rootProject.name)
-    from compileJava
-    from processResources
-    into('lib') {
-        from configurations.runtimeClasspath
-    }
-}
-
-shadowJar {
-    zip64 true
-}
-
-build {
-    dependsOn buildZip
+repositories {
+    mavenCentral()
 }
