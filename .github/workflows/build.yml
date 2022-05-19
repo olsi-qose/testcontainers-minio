@@ -19,6 +19,11 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build -PignoreCheckFailures=true -PgithubUsername=${{ github.actor }} -PgithubPassword=${{ secrets.GITHUB_TOKEN }}
 
+      - name: Checkstyle
+        uses: jwgmeligmeyling/checkstyle-github-action@v1.2
+        with:
+          path: ./build/reports/checkstyle/*.xml
+
       - name: Test Report
         uses: scacap/action-surefire-report@v1.0.9
         with:

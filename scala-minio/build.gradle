@@ -1,5 +1,14 @@
+plugins {
+    id 'myproject.java-conventions'
+    id 'myproject.scala-conventions'
+}
+
 dependencies {
     implementation project(':java-minio')
-    implementation group: 'com.dimafeng', name: 'testcontainers-scala_2.12', version: '0.39.8'
-    testImplementation group: 'org.scalatest', name: 'scalatest_2.12', version: '3.2.8'
+    implementation group: 'com.dimafeng', name: 'testcontainers-scala_2.12', version: '0.40.7'
+    testImplementation group: 'org.scalatest', name: 'scalatest_2.12', version: '3.2.12'
+}
+
+nullaway {
+    annotatedPackages.addAll(["org.testcontainers", "com.dimafeng"])
 }

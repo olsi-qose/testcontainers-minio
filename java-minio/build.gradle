@@ -1,12 +1,28 @@
+plugins {
+    id 'myproject.java-conventions'
+}
+
 dependencies {
-    implementation group: 'junit', name: 'junit', version: '4.12'
-    implementation (group: 'org.testcontainers', name: 'testcontainers', version: '1.15.3') {
+    implementation group: 'junit', name: 'junit', version: '4.13.2'
+    testImplementation(platform(group: 'org.junit', name: 'junit-bom', version: '5.8.2'))
+    testImplementation(group: 'org.junit.jupiter', name: 'junit-jupiter')
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.8.2'
+    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.8.2'
+    implementation (group: 'org.testcontainers', name: 'testcontainers', version: '1.17.1') {
         exclude group: 'junit', module: 'junit'
     }
     testImplementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.2'
-    testImplementation (group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.12.83') {
+    testImplementation (group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.12.220') {
         exclude group: 'junit', module: 'junit'
     }
-    testImplementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.32'
-    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.32'
+    testImplementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.36'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.36'
+}
+
+nullaway {
+    annotatedPackages.addAll(["org.testcontainers", "com.dimafeng"])
+}
+
+repositories {
+    mavenCentral()
 }
